@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+.list-box::-webkit-scrollbar {
+  width: 10px; /* width of the vertical scrollbar */
+}
+
+.list-box::-webkit-scrollbar-track {
+  background:transparent; /* color of the scrollbar track */
+  border-radius: 10px;
+}
+
+.list-box::-webkit-scrollbar-thumb {
+  background: #192230; /* color of the scrollbar handle */
+  border-radius: 10px;
+}
+
+.list-box::-webkit-scrollbar-thumb:hover {
+  background: #151c27; /* darker color on hover */
+}
