@@ -1,6 +1,5 @@
 let getuserinput = () => {
     let userinput = document.getElementById("userinput").value;
-    console.log(userinput);
     return userinput;
 }
 let addtolist = (task) => {   
@@ -33,12 +32,13 @@ let addtolist = (task) => {
     })
     deletebutton.addEventListener('click', (e)=>{
         createlist.remove();
+        save_localstorage();
     })
+    save_localstorage();
 }
 let inputbox = document.getElementById("userinput");
 inputbox.addEventListener('keydown', (e) =>{
     if(e.key === 'Enter'){
-        getuserinput();
         let dummy = getuserinput();
         inputbox.value = "";
         if(dummy != "" && dummy != " ")
@@ -51,21 +51,23 @@ document.addEventListener('click', (e) => {
     let checkbox = e.target.closest(".checkboxdiv");
     if(checkbox)
         {
-            hasimg = checkbox.querySelector("img");
+            let hasimg = checkbox.querySelector("img");
         if(hasimg){
             hasimg.remove();
-            let text = document.querySelector(".line-through");
+            let task = checkbox.closest("li")
+            let text = task.querySelector("span");
             text.classList.toggle("line-through");
-            task = text.parentElement.parentElement
             task.dataset.status = "incomplete";
+            save_localstorage();
         }else{
             let img = document.createElement("img");
             img.src = "./assets/vecteezy_black-check-mark-icon-tick-symbol-in-black-color-vector_6059254-0-01.svg";
             checkbox.appendChild(img);
             let text = e.target.nextSibling;
             text.classList.toggle("line-through");
-            task = text.parentElement.parentElement;
+            let task = text.parentElement.parentElement;
             task.dataset.status = "complete";
+            save_localstorage();
         }   
     }
 })
@@ -150,3 +152,45 @@ function active_incomplete_filter() {
         }
     }
 }
+
+function save_localstorage(){
+    let task = document.querySelectorAll(".list-elements")[0].children;
+    task = Array.from(task);
+    let tasklist = [];
+    task.forEach(li => {
+        tasklist.push({
+            task : li.querySelector("span").innerHTML,
+            status : li.dataset.status
+        });
+    })
+    console.log(tasklist);
+    localStorage.setItem("tasklist", JSON.stringify(tasklist));
+}
+
+function load_localstorage(){
+    let saved = JSON.parse(localStorage.getItem("tasklist"));
+    if(!saved){
+        return;
+    }
+    else{
+        for (let i=0; i<saved.length; i++){
+            addtolist(saved[i].task);
+            if(saved[i].status == 'incomplete'){
+            }
+            else{
+            let checkbox = document.querySelectorAll(".list-elements")[0].lastElementChild.querySelector(".checkboxdiv");
+            let img = document.createElement("img");
+            img.src = "./assets/vecteezy_black-check-mark-icon-tick-symbol-in-black-color-vector_6059254-0-01.svg";
+            checkbox.appendChild(img);
+            let text = checkbox.parentElement.querySelector("span");
+            text.classList.toggle("line-through");
+            let task = text.parentElement.parentElement;
+            task.dataset.status = "complete";
+                
+            }
+        }
+    }
+}
+document.addEventListener("DOMContentLoaded", function() {
+    load_localstorage();
+});
