@@ -1,9 +1,9 @@
+let list_elements = document.querySelector(".list-elements");
 let getuserinput = () => {
     let userinput = document.getElementById("userinput").value;
     return userinput;
 }
 let addtolist = (task) => {   
-    let ul = document.getElementsByClassName("list-elements")[0];
     let createlist = document.createElement("li");
     let div = document.createElement("div");
     let checkboxdiv = document.createElement("div");
@@ -11,7 +11,7 @@ let addtolist = (task) => {
     
     let textnode = document.createTextNode(task);
     let span = document.createElement("span");
-    ul.appendChild(createlist);
+    list_elements.appendChild(createlist);
     createlist.appendChild(div);
     div.appendChild(checkboxdiv);
     div.appendChild(span);
@@ -41,7 +41,7 @@ inputbox.addEventListener('keydown', (e) =>{
     if(e.key === 'Enter'){
         let dummy = getuserinput();
         inputbox.value = "";
-        if(dummy != "" && dummy != " ")
+        if(dummy.trim() != "")
         {
             addtolist(dummy);
         }
@@ -73,13 +73,40 @@ document.addEventListener('click', (e) => {
 })
 
 let options = document.getElementById("options");
+let list = document.querySelector(".options-list");
+let animate_conpletefilter = document.querySelector(".complete-filter");
+let animate_incompletefilter = document.querySelector(".incomplete-filter");
 options.addEventListener('click', (e) => {
-    let list = document.querySelector(".options-list");
-    list.classList.toggle("hidden");
     if (list.classList.contains("hidden")){
-        list.classList.remove("translate-y-[-20dvh]");
+        list.classList.remove("hidden");
+
+        animate_conpletefilter.animate([{transform: "translateX(-150%)",opacity:0},
+                      {transform: "translateX(0)",opacity:1}],
+                      {duration: 700,
+                       easing:"ease-in-out",
+                       fill:"forwards"});
+
+        animate_incompletefilter.animate([{transform: "translateX(-220%)",opacity:0},
+                      {transform: "translateX(0)",opacity:1}], {duration: 700,
+                       easing:"ease-in-out",
+                       fill:"forwards"});
+        
     }else{
-        list.classList.add("translate-y-[-20dvh]");
+        const animation = animate_conpletefilter.animate([{transform: "translateX(0)",opacity:1},
+                                        {transform: "translateX(-150%)",opacity:0}],
+                                        {duration: 700,
+                                         easing:"ease-in-out",
+                                         fill:"forwards"});
+        const animation2 = animate_incompletefilter.animate([{transform: "translateX(0)",opacity:1},
+                                        {transform: "translateX(-220%)",opacity:0}], {duration: 700,
+                                         easing:"ease-in-out",
+                                         fill:"forwards"});                                    
+        animation.onfinish = () => {
+            list.classList.add("hidden");
+        }
+        animation2.onfinish = () => {
+            list.classList.add("hidden");
+        }
     }
 })
 
@@ -90,15 +117,15 @@ completefilter.addEventListener('click', (e) => {
         active_incomplete_filter_image();
        active_incomplete_filter();
     }
-active_complete_filter_image();
-active_complete_filter();
+    active_complete_filter_image();
+    active_complete_filter();
 })
 let incompletefilter = document.querySelector(".incomplete-filter");
 incompletefilter.addEventListener('click', (e) => {
     if(document.querySelector(".complete-filter").children[0].src.includes("complete-active.svg"))
     {
         active_complete_filter_image();
-       active_complete_filter();
+        active_complete_filter();
     }
 active_incomplete_filter_image();
 active_incomplete_filter();
@@ -115,14 +142,13 @@ let src = img.src;
 img.src = src.includes("wrong-svgrepo-com.svg")? src.replace("wrong-svgrepo-com.svg", "incomplete-active.svg"): src.replace("incomplete-active.svg", "wrong-svgrepo-com.svg")
 }
 function active_complete_filter() {
-    let list = document.querySelectorAll(".task");
+    
+    let list = document.querySelectorAll(".task")
     
     if(document.querySelector(".complete-filter").children[0].src.includes("complete-active.svg"))
         {
             for (let i = 0; i < list.length; i++) {
-                if(list[i].dataset.status === "complete"){
-                    list[i].classList.remove("hidden");
-                }else{
+                if(list[i].dataset.status === "incomplete"){
                     list[i].classList.add("hidden");
                 }
             }
@@ -134,14 +160,13 @@ function active_complete_filter() {
     }
 }
 function active_incomplete_filter() {
-    let list = document.querySelectorAll(".task");
+    
+    let list = document.querySelectorAll(".task")
 
     if(document.querySelector(".incomplete-filter").children[0].src.includes("incomplete-active.svg"))
         {   
             for (let i = 0; i < list.length; i++) {
-                if(list[i].dataset.status === "incomplete"){
-                    list[i].classList.remove("hidden");
-                }else{
+                if(list[i].dataset.status === "complete"){
                     list[i].classList.add("hidden");
                 }
             }
@@ -154,7 +179,7 @@ function active_incomplete_filter() {
 }
 
 function save_localstorage(){
-    let task = document.querySelectorAll(".list-elements")[0].children;
+    let task = list_elements.children;
     task = Array.from(task);
     let tasklist = [];
     task.forEach(li => {
@@ -178,7 +203,7 @@ function load_localstorage(){
             if(saved[i].status == 'incomplete'){
             }
             else{
-            let checkbox = document.querySelectorAll(".list-elements")[0].lastElementChild.querySelector(".checkboxdiv");
+            let checkbox = list_elements.lastElementChild.querySelector(".checkboxdiv");
             let img = document.createElement("img");
             img.src = "./assets/vecteezy_black-check-mark-icon-tick-symbol-in-black-color-vector_6059254-0-01.svg";
             checkbox.appendChild(img);

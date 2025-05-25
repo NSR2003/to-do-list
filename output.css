@@ -245,6 +245,10 @@
     --tw-translate-y: -20dvh;
     translate: var(--tw-translate-x) var(--tw-translate-y);
   }
+  .translate-y-\[20dvh\] {
+    --tw-translate-y: 20dvh;
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
   .grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }

@@ -3,26 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <title>todo list</title>
-    <link href="/output.css" rel="stylesheet">
+    <!-- <link href="/output.css" rel="stylesheet"> -->
 </head>
 <body class="bg-gray-800 text-[whitesmoke]">
     <section class="input">
-        <div class="input-box w-[40dvw] absolute top-[87dvh] left-[30dvw] flex items-start justify-between">
+        <div class="relative top-[87dvh] left-[30dvw] w-[70dvw] flex items-center justify-start">
+        <div class="input-box w-[39dvw] absolute flex items-start justify-between">
             <input type="text" name="userinput" id="userinput" placeholder="Enter your task" class="input-bar bg-[gray]/50 h-[5dvh] w-[36dvw] relative px-10 rounded-full" >
-            <div class="relative h-[5dvh] w-[5dvh] flex flex-col items-center justify-between">
+            <div class="relative h-[5dvh]   flex flex-row items-center justify-between">
                 <div class="relative w-[5dvh] h-[5dvh] flex items-center justify-center bg-[gray]/50 rounded-full" id="options"> <img src="./assets/filter-svgrepo-com.svg"class="w-auto h-[2dvh]" alt=""></div>
-                <div class="relative options-list hidden h-0">
+                
+            </div>
+        </div>
+        <div class="absolute flex left-[40dvw] items-center justify-center ">
+            <div class="relative options-list hidden flex">
                     <div class="relative w-[5dvh] h-[5dvh] flex items-center m-2 justify-center bg-[gray]/50 rounded-full complete-filter" > <img   src="./assets/complete-svgrepo-com.svg" class="w-auto h-[2dvh]" alt=""></div>
                     <div class="relative w-[5dvh] h-[5dvh] flex items-center m-2 justify-center bg-[gray]/50 rounded-full incomplete-filter" > <img   src="./assets/wrong-svgrepo-com.svg" class="w-auto h-[2dvh]" alt=""></div>
                 </div>
-            </div>
         </div>
+        </div>
+        
     </section>
     <section class="list justify-items-center">
         <div class="list-box justify-items-center pt-10 overflow-y-scroll h-[80dvh] w-[80dvw] ">
-            <ul class="list-elements grid grid-cols-3 gap-5 justify-items-center w-[70dvw]">
+            <ul class="list-elements grid grid-cols-3 gap-5 justify-items-center w-[70dvw]"></ul>
         </div>
     </section>
 </body>
